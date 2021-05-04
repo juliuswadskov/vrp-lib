@@ -1,7 +1,7 @@
 # vrp-lib
 vRP Library with callback included 
 
-### Add this to your fxmanifest.lua
+## Add this to your fxmanifest.lua
 ```lua
 client_scripts {
     "lib/Proxy.lua",
@@ -13,4 +13,21 @@ server_scripts {
     "@vrp/lib/utils.lua",
     "lib/callback/server.lua"
 }
+```
+
+## To use the callback
+### Client
+```lua
+TriggerServerCallback('test', function(bool)
+    if bool then
+        print('works')
+    end
+end)
+```
+
+### Server
+```lua
+RegisterServerCallback('test', function(source, cb)
+    cb(true)
+end)
 ```
