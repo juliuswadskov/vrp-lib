@@ -10,7 +10,7 @@ client_scripts {
 }
 
 server_scripts {
-	  "@vrp/lib/utils.lua",
+    "@vrp/lib/utils.lua",
     "lib/callback/server.lua"
 }
 ```
