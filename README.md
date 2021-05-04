@@ -22,12 +22,13 @@ TriggerServerCallback('test', function(bool)
     if bool then
         print('works')
     end
-end)
+end, 'hey')
 ```
 
 ### Server
 ```lua
-RegisterServerCallback('test', function(source, cb)
+RegisterServerCallback('test', function(source, cb, arg2)
+    print(arg2)
     cb(true)
 end)
 ```
