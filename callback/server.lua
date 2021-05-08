@@ -1,24 +1,14 @@
-Callback = {}
-Callback.ClientCallbacks = {}
-Callback.ServerCallbacks = {}
+-- Taget fra https://github.com/bertrammohr/mo-callbacks/blob/main/sCallback.lua
+-- Lavet om af Raag2005
+callback = {}
+local resource = GetCurrentResourceName()
 
--- Server Callback
-RegisterServerEvent(GetCurrentResourceName() .. ':triggerServerCallback')
-AddEventHandler(GetCurrentResourceName() .. ':triggerServerCallback', function(name, requestId, ...)
+function RegisterServerCallback(name, func)
+    callback[name] = func
+end
+
+RegisterServerEvent(resource .. ":TriggerServerCallback")
+AddEventHandler(resource .. ":TriggerServerCallback", function(name, args)
     local _source = source
-    TriggerServerCallback(name, requestID, _source, function(...)
-	TriggerClientEvent(GetCurrentResourceName() .. ':serverCallback', _source, requestId, ...)
-    end, ...)
+    TriggerClientEvent(resource .. ":RecieveServerCallback", _source, name, sCallback[name](table.unpack(args)))
 end)
-
-TriggerServerCallback = function(name, requestId, source, cb, ...)
-    if Callback.ServerCallbacks[name] ~= nil then
-        Callback.ServerCallbacks[name](source, cb, ...)
-    else
-        print('TriggerServerCallback => [' .. name .. '] does not exist')
-    end
-end
-
-RegisterServerCallback = function(name, cb)
-    Callback.ServerCallbacks[name] = cb
-end
