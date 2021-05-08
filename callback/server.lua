@@ -1,12 +1,14 @@
 Callback = {}
+Callback.ClientCallbacks = {}
 Callback.ServerCallbacks = {}
 
+-- Server Callback
 RegisterServerEvent(GetCurrentResourceName() .. ':triggerServerCallback')
 AddEventHandler(GetCurrentResourceName() .. ':triggerServerCallback', function(name, requestId, ...)
-	local _source = source
+    local _source = source
     TriggerServerCallback(name, requestID, _source, function(...)
-		TriggerClientEvent(GetCurrentResourceName() .. ':serverCallback', _source, requestId, ...)
-	end, ...)
+	TriggerClientEvent(GetCurrentResourceName() .. ':serverCallback', _source, requestId, ...)
+    end, ...)
 end)
 
 TriggerServerCallback = function(name, requestId, source, cb, ...)
