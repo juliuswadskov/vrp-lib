@@ -1,23 +1,18 @@
-Callback = {}
-Callback.ClientCallbacks = {} 
-Callback.ServerCallbacks = {}
-Callback.CurrentRequestId = 0
+-- Taget fra https://github.com/bertrammohr/mo-callbacks/blob/main/cCallback.lua
+-- Lavet om af Raag2005
 
--- Server Callback
-TriggerServerCallback = function(name, cb, ...)
-	Callback.ServerCallbacks[Callback.CurrentRequestId] = cb
+callback = {}
+local resource = GetCurrentResourceName()
 
-	TriggerServerEvent(GetCurrentResourceName() .. ':triggerServerCallback', name, Callback.CurrentRequestId, ...)
-
-	if Callback.CurrentRequestId < 65535 then
-		Callback.CurrentRequestId = Callback.CurrentRequestId + 1
-	else
-		Callback.CurrentRequestId = 0
-	end
+TriggerServerCallback = function(name, args, cb)
+    TriggerServerEvent(resource .. ":TriggerServerCallback", name, args)
+    while not callback[name] do
+        Wait(1)
+    end
+    cb(callback[name])
 end
 
-RegisterNetEvent(GetCurrentResourceName() .. ':serverCallback')
-AddEventHandler(GetCurrentResourceName() .. ':serverCallback', function(requestId, ...)
-    Callback.ServerCallbacks[requestId](...)
-    Callback.ServerCallbacks[requestId] = nil
+RegisterNetEvent(resource .. ":RecieveServerCallback")
+AddEventHandler(resource .. ":RecieveServerCallback", function(name, data)
+    callback[name] = data
 end)
