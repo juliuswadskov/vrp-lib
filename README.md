@@ -18,11 +18,11 @@ server_scripts {
 ## To use the callback
 ### Client
 ```lua
-TriggerServerCallback('test', function(bool)
+TriggerServerCallback('test', {'hey'}, function(bool)
     if bool then
         print('works')
     end
-end, 'hey')
+end)
 ```
 
 ### Server
