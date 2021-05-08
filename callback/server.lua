@@ -10,5 +10,5 @@ end
 RegisterServerEvent(resource .. ":TriggerServerCallback")
 AddEventHandler(resource .. ":TriggerServerCallback", function(name, args)
     local _source = source
-    TriggerClientEvent(resource .. ":RecieveServerCallback", _source, name, sCallback[name](table.unpack(args)))
+    TriggerClientEvent(resource .. ":RecieveServerCallback", _source, name, callback[name](table.unpack(args)))
 end)
