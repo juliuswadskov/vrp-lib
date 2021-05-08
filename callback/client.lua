@@ -1,7 +1,9 @@
 Callback = {}
+Callback.ClientCallbacks = {} 
 Callback.ServerCallbacks = {}
 Callback.CurrentRequestId = 0
 
+-- Server Callback
 TriggerServerCallback = function(name, cb, ...)
 	Callback.ServerCallbacks[Callback.CurrentRequestId] = cb
 
@@ -16,6 +18,6 @@ end
 
 RegisterNetEvent(GetCurrentResourceName() .. ':serverCallback')
 AddEventHandler(GetCurrentResourceName() .. ':serverCallback', function(requestId, ...)
-	Callback.ServerCallbacks[requestId](...)
-	Callback.ServerCallbacks[requestId] = nil
-end)	
+    Callback.ServerCallbacks[requestId](...)
+    Callback.ServerCallbacks[requestId] = nil
+end)
